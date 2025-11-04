@@ -1,7 +1,7 @@
 /* Réglages généraux du corps de la page */
 body {
-    background-color: #F9F5EF;
-    color: black;
+    background-color: #000000;
+    color: #FFFFFF;
     font-family: 'JetBrains Mono', monospace;
     margin: 0;
     padding: 0;
@@ -42,7 +42,7 @@ body {
     height: 44px;
     border-radius: 30px;
     border: none;     
-    background-color: #C3B49B; 
+    background-color: rgba(180, 99, 143, 0.33); 
     color: #FFFFFF; 
     font-family: 'JetBrains Mono', monospace;
     font-size: 16px;
