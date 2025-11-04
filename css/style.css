@@ -10,8 +10,13 @@ body {
 /* Style de la Navbar */
 .navbar {
     background-color: #FFFFFF;
-    height: 104px;
+    height: 208px;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    padding: 0 40px; 
+    box-sizing: border-box; 
 }
 
 /* Style pour le texte d'exemple */
@@ -23,4 +28,39 @@ body {
     text-align: center;       
     max-width: 600px;           
     margin: 40px auto 0 auto; 
+}
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    flex: 1; 
+    gap: 20px; 
+}
+
+.nav-left {
+    justify-content: flex-start; 
+}
+
+.nav-right {
+    justify-content: flex-end; 
+}
+
+/* Style du Logo */
+.nav-logo {
+    height: 259px; 
+    width: auto;
+}
+
+/* Style des boutons */
+.nav-button {
+    width: 247px;
+    height: 44px;
+    border-radius: 30px;
+    border: none;     
+    background-color: rgba(180, 99, 143, 0.33); 
+    color: #FFFFFF; 
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer; 
+    text-align: center;
 }
