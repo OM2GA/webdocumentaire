@@ -1,3 +1,4 @@
+/* Réglages généraux du corps de la page */
 body {
     background-color: #000000;
     color: #FFFFFF;
@@ -6,17 +7,19 @@ body {
     padding: 0;
 }
 
+/* Style de la Navbar */
 .navbar {
     background-color: #FFFFFF;
     height: 208px;
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 40px;
+    justify-content: space-between; /* Répartit les 5 éléments sur la largeur */
+    padding: 0 40px; /* Crée une marge sur les côtés */
     box-sizing: border-box; 
 }
 
+/* Style pour le texte d'exemple */
 .description-text {
     font-family: 'JetBrains Mono', monospace;
     font-weight: 400;       
@@ -27,17 +30,19 @@ body {
     margin: 40px auto 0 auto; 
 }
 
+/* Style du Logo */
 .nav-logo {
     height: 259px; 
     width: auto;
 }
 
+/* Style des boutons */
 .nav-button {
     width: 247px;
     height: 44px;
     border-radius: 30px;
     border: none;     
-    background-color: rgba(180, 99, 143, 0.33);
+    background-color: rgba(180, 99, 143, 0.33); 
     color: #FFFFFF; 
     font-family: 'JetBrains Mono', monospace;
     font-size: 16px;
@@ -45,6 +50,10 @@ body {
     cursor: pointer; 
     text-align: center;
 }
+
+/* ======================= */
+/* STYLES POUR LE CARROUSEL (Corrigé pour l'animation) */
+/* ======================= */
 
 .carousel-container {
     width: 100%;
@@ -54,35 +63,79 @@ body {
 }
 
 .carousel-slider {
-    display: flex;
-    align-items: center;
-    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* Changé pour contenir les items en position absolue */
+    position: relative;
+    width: 100%;
+    /* Hauteur pour contenir l'item zoomé (250px * 1.1 = 275px) */
+    height: 300px; 
 }
 
 .carousel-item {
+    /* Changé pour le positionnement absolu */
+    position: absolute;
+    top: 50%;
+    left: 50%; /* Commence au centre par défaut */
+    transform: translate(-50%, -50%) scale(0.7); /* Centré et petit */
+    
     min-width: 350px;
     height: 250px;
-    margin: 0 20px;
     cursor: pointer;
-
-    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
-                opacity 0.6s ease;
     
-    transform: scale(0.7);
+    /* La transition inclut 'left' pour l'animation de glissement */
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+                left 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    
     opacity: 0.4;
+    z-index: 5; /* Par défaut, derrière l'actif */
 }
 
 .carousel-item img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 20px;
+    object-fit: cover; 
+    border-radius: 20px; 
     border: 3px solid #FFFFFF; 
     -webkit-user-drag: none;
     user-select: none;
 }
 
+/* --- Nouvelles classes de position --- */
+
+/* L'item précédent (à GAUCHE) */
+.carousel-item.prev {
+    left: 15%; /* Position à gauche */
+    transform: translate(-50%, -50%) scale(0.7);
+    opacity: 0.4;
+    z-index: 5;
+}
+
+/* L'item "actif" (au CENTRE) */
 .carousel-item.active {
-    transform: scale(1.1);
+    left: 50%; /* Position centrale */
+    transform: translate(-50%, -50%) scale(1.1);
     opacity: 1;
+    z-index: 10; /* Devant les autres */
+}
+
+/* L'item suivant (à DROITE) */
+.carousel-item.next {
+    left: 85%; /* Position à droite */
+    transform: translate(-50%, -50%) scale(0.7);
+    opacity: 0.4;
+    z-index: 5;
+}
+
+
+/* Style pour l'indicateur numérique */
+.image-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5em;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.6);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
 }
