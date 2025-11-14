@@ -32,23 +32,30 @@ body {
 
 /* Style du Logo */
 .nav-logo {
-    height: 100px; 
+    height: 150px; 
     width: auto;
 }
 
-/* Style des boutons */
+/* Style des boutons (MODIFIÉ) */
 .nav-button {
-    width: 150px;
-    height: 40px;
+    /* Dimensions de la capture "Rectangle 13" */
+    width: 247px;
+    height: 44px;
     border-radius: 30px;
     border: none;     
-    background-color: #C3B49B; 
+    /* Couleur de la capture "Rectangle 13" (#480404 à 87% d'opacité) */
+    background-color: rgba(72, 4, 4, 0.87); 
     color: #FFFFFF; 
     font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
+    font-size: 14px; /* Note: la capture n'indiquait pas de taille, j'ai gardé l'ancienne */
     font-weight: 400;
     cursor: pointer; 
-    text-align: center;
+
+    /* Ajouts pour que la balise <a> ressemble à un bouton */
+    text-decoration: none; /* Supprime le soulignement du lien */
+    display: flex; /* Permet d'utiliser width, height et de centrer le texte */
+    justify-content: center; /* Centre le texte horizontalement */
+    align-items: center; /* Centre le texte verticalement */
 }
 
 /* ======================= */
@@ -138,4 +145,30 @@ body {
     color: rgba(255, 255, 255, 0.6);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     pointer-events: none;
+}
+
+
+.webdoc-title {
+    /* Positionnement */
+    position: absolute;
+    width: 112px;
+    height: 50px;
+    top: 79px;
+    left: 550px;
+    border: 0.25px solid #595353;
+
+    /* Typographie */
+    font-family: 'Mohave', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 36px;
+    line-height: 1; /* 100% */
+    letter-spacing: 0;
+    color: #FFFFFF; /* ATTENTION: Blanc sur fond blanc */
+
+    /* Centrage du texte (ajouté pour un meilleur rendu) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
 }
