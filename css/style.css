@@ -1,3 +1,4 @@
+/* --- RESET & GLOBAL --- */
 body {
     background-color: #F9F5EF;
     color: black;
@@ -5,8 +6,11 @@ body {
     font-weight: 400;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+    /* Évite le scroll horizontal involontaire */
 }
 
+/* --- NAVBAR (Inchangé) --- */
 .navbar {
     background-color: #FFFFFF;
     height: 80px;
@@ -15,138 +19,581 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 0 40px;
-    box-sizing: border-box; 
-}
-
-.description-text {
-    font-family: 'Mohave', sans-serif;
-    font-weight: 400;       
-    font-size: 18px;        
-    line-height: 1.3;           
-    text-align: center;       
-    max-width: 1580px;        
-    margin: 40px auto 0 auto; 
+    box-sizing: border-box;
 }
 
 .nav-logo {
-    height: 150px; 
+    height: 150px;
+    /* Rétabli à 150px comme à l'origine */
     width: auto;
+    margin-top: 0;
+    /* Suppression de la marge qui décalait le logo */
+    z-index: 100;
 }
+
+/* Ajustement logo qui dépasse */
 
 .nav-button {
     width: 140px;
     height: 30px;
     border-radius: 30px;
-    border: none;     
-    background-color: rgba(72, 4, 4, 0.87); 
-    color: #FFFFFF; 
+    border: none;
+    background-color: rgba(72, 4, 4, 0.87);
+    color: #FFFFFF;
     font-family: 'Mohave', sans-serif;
     font-size: 20px;
     font-weight: 400;
-    cursor: pointer; 
+    cursor: pointer;
     text-decoration: none;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background-color 0.3s ease, color 0.3s ease, width 0.3s ease, height 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .nav-button:hover,
 .nav-button.active {
     border-radius: 20px;
-    border: none;   
     width: 140px;
     height: 60px;
-    background-color: rgba(72, 4, 4, 0.87);
+}
+
+/* --- HEADER & SOUS-TITRE --- */
+.header-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 60px;
+}
+
+.header-image {
+    width: 100%;
+    height: 500px;
+    display: block;
+    opacity: 0.5;
+    /* Rétabli : Donne l'effet "filtre blanc" en transparence */
+    object-fit: cover;
+    object-position: center;
+    filter: blur(1.5px);
+    /* Rétabli : Le flou léger */
+}
+
+.subtitle-block {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 80px;
+    z-index: 10;
+}
+
+.subtitle-line {
+    width: 150px;
+    border-top: 2px solid #000000;
+    margin-bottom: 10px;
+}
+
+.subtitle-text {
+    margin: 0;
+    font-family: 'Mohave', sans-serif;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 1;
+    color: #000000;
+    text-transform: uppercase;
+}
+
+/* --- SECTION ARTICLES (CARTES) --- */
+.articles-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    /* Aligne le bas des cartes */
+    gap: 30px;
+    padding: 40px 10%;
+    margin-bottom: 60px;
+}
+
+.article-card {
+    background-color: #C5B79D;
+    /* Couleur beige de la maquette */
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.small-card {
+    width: 300px;
+    height: 250px;
+}
+
+.large-card {
+    width: 350px;
+    height: 320px;
+    /* Carte centrale plus haute */
+}
+
+.article-title {
+    font-size: 32px;
+    margin: 0;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.article-chapeau {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 5px 0 20px 0;
+}
+
+.btn-savoir {
+    background-color: white;
+    color: black;
+    padding: 5px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* --- TITRE GALERIE --- */
+.gallery-section-title {
+    font-size: 48px;
+    text-transform: uppercase;
+    margin-left: 10%;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: black;
+}
+
+/* --- SECTION GALERIE (FOND NOIR) --- */
+.gallery-wrapper {
+    background-color: #1E1E1E;
+    /* Fond sombre */
+    padding: 60px 0;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .carousel-container {
     width: 100%;
-    overflow: hidden; 
-    padding: 40px 0;
-    margin-top: 40px;
+    overflow: visible;
+    position: relative;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .carousel-slider {
     position: relative;
-    width: 100%;
-    height: 300px; 
+    width: 80%;
+    height: 100%;
 }
 
+/* Modification des items pour le fond noir */
 .carousel-item {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.7);
-    min-width: 350px;
-    height: 250px;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 500px;
+    height: 300px;
     cursor: pointer;
-    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
-                opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
-                left 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-    opacity: 0.4;
+    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    opacity: 0.5;
     z-index: 5;
+    border-radius: 20px;
+    overflow: hidden;
 }
 
 .carousel-item img {
     width: 100%;
     height: 100%;
-    object-fit: cover; 
-    border-radius: 20px; 
-    border: 3px solid #FFFFFF; 
-    -webkit-user-drag: none;
-    user-select: none;
-}
-
-.carousel-item.prev {
-    left: 15%;
-    transform: translate(-50%, -50%) scale(0.7);
-    opacity: 0.4;
-    z-index: 5;
+    object-fit: cover;
+    border: none;
+    /* Enlève la bordure blanche précédente */
 }
 
 .carousel-item.active {
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1.1);
+    transform: translate(-50%, -50%) scale(1.2);
+    /* Image active plus grande */
     opacity: 1;
     z-index: 10;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-item.prev {
+    left: 20%;
 }
 
 .carousel-item.next {
-    left: 85%;
-    transform: translate(-50%, -50%) scale(0.7);
-    opacity: 0.4;
-    z-index: 5;
+    left: 80%;
 }
 
-.image-indicator {
+/* Flèches décoratives */
+.nav-arrow {
+    color: white;
+    font-size: 30px;
+    border: 1px solid white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 20;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 5em;
-    font-weight: bold;
-    color: rgba(255, 255, 255, 0.6);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    pointer-events: none;
 }
 
-.webdoc-title {
+.nav-arrow.left {
+    left: 5%;
+}
+
+.nav-arrow.right {
+    right: 5%;
+}
+
+/* Points de navigation */
+.dots-container {
+    display: flex;
+    justify-content: center;
+    /* Centre les points */
+    align-items: center;
+    gap: 12px;
+    /* Espace entre les points */
+    margin-top: 40px;
+    /* Un peu plus d'espace sous le carrousel */
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background-color: #555;
+    /* Gris foncé pour les inactifs */
+    border-radius: 50%;
+    /* Cercle parfait */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /* Animation fluide pour l'étirement */
+}
+
+.dot.active {
+    width: 60px;
+    /* Largeur de la barre active */
+    background-color: #888;
+    /* Gris plus clair pour l'actif */
+    border-radius: 10px;
+    /* Bords arrondis pour faire une "gélule" */
+}
+
+/* --- SECTION TEXTE FIN --- */
+.intro-text-section {
+    max-width: 1000px;
+    margin: 80px auto;
+    padding: 0 20px;
+}
+
+.intro-content {
+    text-align: left;
+    font-size: 20px;
+    line-height: 1.5;
+}
+
+.intro-line {
+    width: 200px;
+    border: none;
+    border-top: 2px solid black;
+    margin: 30px 0;
+}
+
+.intro-action {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 40px;
+}
+
+.btn-webdoc {
+    background-color: #C5B79D;
+    color: black;
+    padding: 10px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-webdoc:hover {
+    background-color: #b0a186;
+}
+
+/* --- PAGE ARTICLES : STYLES SPÉCIFIQUES --- */
+
+.articles-main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 60px;
+}
+
+/* Section Audio Hero */
+.hero-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* Empile l'image et le texte verticalement */
+    align-items: center;
+    /* Centre le tout horizontalement */
+    padding: 60px 0 100px 0;
+    background-color: #F9F5EF;
+    gap: 40px;
+    /* Espace entre l'image et le texte */
+}
+
+.audio-hero-container {
+    position: relative;
+    width: 80%;
+    max-width: 900px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.audio-hero-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.audio-overlay {
     position: absolute;
-    width: 112px;
-    height: 50px;
-    top: 79px;
-    left: 550px;
-    border: 0.25px solid #595353;
-    font-family: 'Mohave', sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 36px;
-    line-height: 1;
-    letter-spacing: 0;
-    color: #FFFFFF;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-sizing: border-box;
+}
+
+.btn-audio-hero {
+    background-color: rgba(100, 100, 100, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: white;
+    padding: 10px 30px;
+    font-family: 'Mohave', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 10px;
+    backdrop-filter: blur(2px);
+    transition: background 0.3s;
+}
+
+.btn-audio-hero:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Correction Texte Audio (Placement) */
+.hero-intro-text {
+    width: 80%;
+    max-width: 900px;
+    text-align: left;
+    font-family: 'Mohave', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.4;
+    color: #333;
+    /* On s'assure qu'il n'y a pas de marge étrange */
+    margin-top: 0;
+}
+
+/* Sections Articles */
+.article-section {
+    width: 100%;
+    padding: 60px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.bg-beige {
+    background-color: #F9F5EF;
+}
+
+.bg-white {
+    background-color: #FFFFFF;
+}
+
+.article-content {
+    width: 80%;
+    max-width: 1000px;
+    display: flex;
+    align-items: center;
+    /* Centre le texte verticalement face à l'image */
+    justify-content: space-between;
+    gap: 50px;
+}
+
+/* Images */
+.article-img-side {
+    flex: 1;
+    display: flex;
+}
+
+.article-img-side img {
+    width: 100%;
+    max-width: 500px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Portrait */
+.portrait-wrapper {
+    justify-content: flex-start;
+}
+
+.img-portrait {
+    width: auto !important;
+    max-width: 250px !important;
+    height: 350px !important;
+    object-fit: cover;
+}
+
+/* Texte & Boutons */
+.article-text-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    /* Pousse le contenu vers le bas */
+}
+
+.article-preview-title {
+    font-family: 'Mohave', sans-serif;
+    font-weight: 600;
+    /* SemiBold */
+    font-size: 64px;
+    /* Paramètre demandé */
+    line-height: 100%;
+    letter-spacing: 0%;
+    margin: 0 0 30px 0;
+    color: black;
+    text-transform: none;
+    /* On enlève la majuscule forcée */
+}
+
+/* Correction de la taille du texte (Chapeau) */
+.article-preview-chapeau {
+    font-family: 'Mohave', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    /* Augmenté pour correspondre mieux à la maquette */
+    line-height: 1.4;
+    color: black;
+    text-transform: none;
+    margin-bottom: 40px;
+}
+
+/* --- Layout Alterné (CORRIGÉ) --- */
+
+/* Cas 1 : Image à DROITE (Texte à GAUCHE) */
+/* Structure HTML : <Texte> <Image> */
+.image-right {
+    flex-direction: row;
+    /* Ordre naturel */
+}
+
+.image-right .article-img-side {
+    justify-content: flex-end;
+}
+
+.image-right .article-text-side {
+    align-items: flex-start;
+    /* Aligne le bloc texte à gauche */
+    text-align: left;
+    /* Texte aligné à gauche */
+    padding-right: 60px;
+    /* Espace entre le texte et l'image */
+}
+
+/* Cas 2 : Image à GAUCHE (Texte à DROITE) */
+/* Structure HTML : <Image> <Texte> */
+.image-left {
+    flex-direction: row;
+    /* Ordre naturel car HTML est inversé */
+}
+
+.image-left .article-img-side {
+    justify-content: flex-start;
+}
+
+.image-left .article-text-side {
+    /* C'EST ICI QUE C'ETAIT FAUX AVANT */
+    align-items: flex-start;
+    /* On garde le bloc texte aligné au début (gauche) */
+    text-align: left;
+    /* On garde le texte aligné à gauche (lecture normale) */
+    padding-left: 60px;
+    /* Espace entre l'image et le texte */
+}
+
+/* Bouton LIRE + */
+.btn-lire {
+    background-color: #C5B79D;
+    /* Beige sur fond beige (ou blanc selon maquette) */
+    color: black;
+    padding: 8px 50px;
+    border-radius: 20px;
+    font-family: 'Mohave', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Variante pour fond blanc si on veut un bouton beige qui ressort */
+.btn-lire.btn-beige-bg {
+    background-color: #C5B79D;
+}
+
+.btn-lire:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive Mobile (Inchangé mais vital) */
+@media (max-width: 768px) {
+
+    .article-content,
+    .image-right,
+    .image-left {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .article-text-side {
+        padding: 0 !important;
+        /* Enlève les espaces latéraux sur mobile */
+        text-align: left !important;
+    }
+
+    .article-preview-title {
+        font-size: 40px;
+    }
 }
