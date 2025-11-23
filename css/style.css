@@ -565,6 +565,9 @@ body {
     white-space: nowrap;
     transition: transform 0.2s;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: none;
+    cursor: pointer;
+    display: inline-block;
 }
 
 /* Variante pour fond blanc si on veut un bouton beige qui ressort */
@@ -596,4 +599,181 @@ body {
     .article-preview-title {
         font-size: 40px;
     }
+}
+
+/* --- STYLE DU POP-UP (MODAL) --- */
+
+/* L'arrière-plan sombre qui couvre tout l'écran */
+.modal-overlay {
+    display: none;
+    /* Caché par défaut */
+    position: fixed;
+    z-index: 1000;
+    /* Au-dessus de tout */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Fond noir semi-transparent */
+    backdrop-filter: blur(5px);
+    /* Petit effet de flou moderne */
+    align-items: center;
+    justify-content: center;
+}
+
+/* La boîte contenant l'article (comme sur ton screen) */
+.modal-container {
+    background-color: #F9F5EF;
+    /* Couleur de fond du site */
+    width: 90%;
+    max-width: 800px;
+    height: 80%;
+    /* Hauteur fixe relative à l'écran */
+    border-radius: 20px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    box-sizing: border-box;
+    animation: slideUp 0.4s ease-out;
+}
+
+/* Animation d'apparition */
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Bouton fermer (la croix) */
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    color: #333;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 20px;
+    transition: color 0.3s;
+}
+
+.modal-close:hover {
+    color: #b0a186;
+}
+
+/* En-tête du modal */
+.modal-header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #C5B79D;
+    padding-bottom: 20px;
+}
+
+.modal-header h2 {
+    font-family: 'Mohave', sans-serif;
+    font-size: 48px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.modal-subtitle {
+    font-family: 'Mohave', sans-serif;
+    font-size: 24px;
+    color: #666;
+    margin: 10px 0 0 0;
+}
+
+/* Corps du texte (défilant) */
+.modal-body {
+    overflow-y: auto;
+    /* Permet de scroller si le texte est long */
+    padding-right: 15px;
+    /* Espace pour la barre de scroll */
+    text-align: justify;
+    font-family: 'JetBrains Mono', monospace;
+    /* Police secondaire du site */
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Style de la barre de scroll personnalisée */
+.modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: #e0e0e0;
+    border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: #C5B79D;
+    border-radius: 4px;
+}
+
+.modal-body h3 {
+    font-family: 'Mohave', sans-serif;
+    font-size: 28px;
+    color: #000;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+/* --- AJOUTS CSS POUR LE POP-UP CORRIGÉ --- */
+
+/* Style de l'image à l'intérieur du pop-up */
+.modal-article-img {
+    width: 100%;
+    height: auto;
+    /* S'adapte à la hauteur réelle de l'image */
+    max-height: 500px;
+    /* Limite la hauteur pour qu'elle ne prenne pas tout l'écran */
+    object-fit: contain;
+    /* Affiche l'image ENTIÈRE sans rogner */
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Style spécifique pour le chapeau dans le pop-up */
+.modal-intro {
+    font-size: 18px;
+    font-weight: 600;
+    /* Un peu plus gras */
+    font-style: italic;
+    /* En italique pour le différencier */
+    color: #444;
+    margin-bottom: 30px;
+    /* Espace avant le début des paragraphes */
+    border-left: 4px solid #C5B79D;
+    /* Petite barre déco sur le côté */
+    padding-left: 15px;
+}
+
+/* Ajustement du titre pour qu'il soit bien lisible en gros */
+.modal-header h2 {
+    font-family: 'Mohave', sans-serif;
+    font-size: 42px;
+    /* Un peu plus petit que 48px pour que ça rentre bien sur 2 lignes */
+    line-height: 1.2;
+    margin: 0;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* On s'assure que le header a assez d'espace */
+.modal-header {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #C5B79D;
 }

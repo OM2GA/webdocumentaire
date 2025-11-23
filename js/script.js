@@ -76,3 +76,32 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialisation
     updateCarousel();
 });
+
+/* --- GESTION DU POP-UP ARTICLE --- */
+
+// Sélection des éléments
+const modal = document.getElementById('modal-laura');
+const btnOpen = document.getElementById('btn-laura');
+const btnClose = document.querySelector('.modal-close');
+
+// Vérification que les éléments existent (pour éviter les erreurs sur les autres pages)
+if (modal && btnOpen && btnClose) {
+
+    // Ouvrir le modal au clic sur "LIRE +"
+    btnOpen.addEventListener('click', (e) => {
+        e.preventDefault(); // Empêche le comportement par défaut du lien/bouton
+        modal.style.display = "flex"; // Affiche le modal (flex pour centrer)
+    });
+
+    // Fermer le modal au clic sur la croix
+    btnClose.addEventListener('click', () => {
+        modal.style.display = "none";
+    });
+
+    // Fermer le modal si on clique en dehors du contenu (sur le fond sombre)
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+}
