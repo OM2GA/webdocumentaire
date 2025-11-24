@@ -105,3 +105,33 @@ if (modal && btnOpen && btnClose) {
         }
     });
 }
+
+/* --- Dans webdocumentaire-main/js/script.js (Ajoutez ceci à la fin) --- */
+
+/* --- GESTION DU POP-UP ARTICLE 1 (JUSTAUCORPS) --- */
+
+const modalJustaucorps = document.getElementById('modal-justaucorps');
+const btnOpenJustaucorps = document.getElementById('btn-justaucorps');
+// On sélectionne le bouton fermer spécifique à cette modale
+const btnCloseJustaucorps = document.querySelector('.modal-close-justaucorps');
+
+if (modalJustaucorps && btnOpenJustaucorps && btnCloseJustaucorps) {
+
+    // Ouvrir
+    btnOpenJustaucorps.addEventListener('click', (e) => {
+        e.preventDefault();
+        modalJustaucorps.style.display = "flex";
+    });
+
+    // Fermer (Croix)
+    btnCloseJustaucorps.addEventListener('click', () => {
+        modalJustaucorps.style.display = "none";
+    });
+
+    // Fermer (Clic extérieur)
+    window.addEventListener('click', (e) => {
+        if (e.target === modalJustaucorps) {
+            modalJustaucorps.style.display = "none";
+        }
+    });
+}
