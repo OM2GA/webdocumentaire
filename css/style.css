@@ -257,13 +257,19 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
+    /* Tout le monde reste au centre par défaut pour la propriété left */
     transform: translate(-50%, -50%) scale(0.8);
     width: 500px;
     height: 300px;
     cursor: pointer;
-    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.4s ease, left 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.6s ease;
-    opacity: 0.5;
-    z-index: 5;
+    will-change: transform, opacity;
+    /* On supprime 'left' de la transition */
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+        opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+        filter 0.4s ease;
+    opacity: 0;
+    z-index: 0;
+    pointer-events: none;
     border-radius: 20px;
     overflow: hidden;
 }
@@ -278,18 +284,37 @@ body {
 
 .carousel-item.active {
     transform: translate(-50%, -50%) scale(1.2);
-    /* Image active plus grande */
     opacity: 1;
     z-index: 10;
+    pointer-events: auto;
+    /* On garde l'ombre uniquement ici, sans transition lourde */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-.carousel-item.prev {
-    left: 20%;
+/* On réactive l'opacité SEULEMENT pour les items utiles */
+.carousel-item.prev,
+.carousel-item.next {
+    opacity: 0.5;
+    z-index: 5;
+    pointer-events: auto;
 }
 
+.carousel-item.prev {
+    /* Au lieu de left: 20%, on déplace vers la gauche via TranslateX */
+    /* -50% (centrage) - 60% (décalage vers la gauche relative à la largeur du conteneur parent approximative) */
+    /* Le plus simple ici est de simuler le décalage. Si le conteneur fait 100%, 30% d'écart = translate -30vw environ */
+
+    transform: translate(-50%, -50%) translateX(-300px) scale(0.8);
+    /* NOTE : Ajustez -300px selon l'espacement voulu. 
+       Si vous voulez garder du % responsive, utilisez calc ou vw */
+
+    /* left: 20%;  <-- SUPPRIMER CECI */
+}
+
+/* Item Suivant (à droite) */
 .carousel-item.next {
-    left: 80%;
+    transform: translate(-50%, -50%) translateX(300px) scale(0.8);
+    /* left: 80%;  <-- SUPPRIMER CECI */
 }
 
 /* Flèches décoratives */
@@ -601,6 +626,18 @@ body {
     /* On garde le texte aligné à gauche (lecture normale) */
     padding-left: 60px;
     /* Espace entre l'image et le texte */
+}
+
+/* Cas 3 : Sans image (Texte centré) */
+.no-image {
+    justify-content: center;
+}
+
+.no-image .article-text-side {
+    align-items: center;
+    text-align: center;
+    padding: 0;
+    max-width: 800px;
 }
 
 /* Bouton LIRE + */
