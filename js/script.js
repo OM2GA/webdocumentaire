@@ -106,8 +106,6 @@ if (modal && btnOpen && btnClose) {
     });
 }
 
-/* --- Dans webdocumentaire-main/js/script.js (Ajoutez ceci à la fin) --- */
-
 /* --- GESTION DU POP-UP ARTICLE 1 (JUSTAUCORPS) --- */
 
 const modalJustaucorps = document.getElementById('modal-justaucorps');
@@ -132,6 +130,52 @@ if (modalJustaucorps && btnOpenJustaucorps && btnCloseJustaucorps) {
     window.addEventListener('click', (e) => {
         if (e.target === modalJustaucorps) {
             modalJustaucorps.style.display = "none";
+        }
+    });
+}
+
+/* --- GESTION DU POP-UP ARTICLE 3 (STRESS) --- */
+
+const modalStress = document.getElementById('modal-stress');
+const btnOpenStress = document.getElementById('btn-stress');
+const btnCloseStress = document.querySelector('.modal-close-stress');
+
+if (modalStress && btnOpenStress && btnCloseStress) {
+    btnOpenStress.addEventListener('click', (e) => {
+        e.preventDefault();
+        modalStress.style.display = "flex";
+    });
+
+    btnCloseStress.addEventListener('click', () => {
+        modalStress.style.display = "none";
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modalStress) {
+            modalStress.style.display = "none";
+        }
+    });
+}
+
+/* --- GESTION DU POP-UP ARTICLE 4 (CONFIANCE) --- */
+
+const modalConfiance = document.getElementById('modal-confiance');
+const btnOpenConfiance = document.getElementById('btn-confiance');
+const btnCloseConfiance = document.querySelector('.modal-close-confiance');
+
+if (modalConfiance && btnOpenConfiance && btnCloseConfiance) {
+    btnOpenConfiance.addEventListener('click', (e) => {
+        e.preventDefault();
+        modalConfiance.style.display = "flex";
+    });
+
+    btnCloseConfiance.addEventListener('click', () => {
+        modalConfiance.style.display = "none";
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modalConfiance) {
+            modalConfiance.style.display = "none";
         }
     });
 }
