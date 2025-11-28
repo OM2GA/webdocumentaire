@@ -146,12 +146,12 @@ setupModal('modal-histoire', 'btn-histoire', '.modal-close-histoire');
 
 /* --- GESTION LECTEUR AUDIO UNIQUE ET VINYLE --- */
 document.addEventListener('DOMContentLoaded', () => {
-    // On sélectionne les éléments uniques par leurs IDs
+    // On sélectionne les éléments
     const playButton = document.getElementById('main-play-btn');
     const audio = document.getElementById('main-audio');
     const vinylImage = document.getElementById('current-vinyl');
 
-    // Vérification de sécurité si les éléments existent sur la page
+    // Vérification de sécurité
     if (playButton && audio && vinylImage) {
 
         const playerContainer = playButton.closest('.custom-audio-player');
@@ -160,32 +160,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
         playButton.addEventListener('click', () => {
             if (audio.paused) {
-                // --- Lancer la lecture ---
+                // --- LECTURE ---
                 audio.play();
 
-                // Changer les icônes
+                // Icônes
                 iconPlay.style.display = 'none';
                 iconPause.style.display = 'block';
 
-                // Activer les animations (Waveform ET Vinyle)
-                playerContainer.classList.add('playing');
-                vinylImage.classList.add('playing'); // C'est cette ligne qui fait tourner le disque
+                // Animation : on ajoute la classe .playing
+                playerContainer.classList.add('playing'); // Pour l'onde sonore
+                vinylImage.classList.add('playing');      // Pour faire tourner l'image vinyle
 
             } else {
-                // --- Mettre en pause ---
+                // --- PAUSE ---
                 audio.pause();
 
-                // Changer les icônes
+                // Icônes
                 iconPlay.style.display = 'block';
                 iconPause.style.display = 'none';
 
-                // Arrêter les animations
+                // Arrêt Animation
                 playerContainer.classList.remove('playing');
-                vinylImage.classList.remove('playing'); // Le disque s'arrête
+                vinylImage.classList.remove('playing');
             }
         });
 
-        // (Optionnel) Si l'audio se termine tout seul, on remet le bouton play et on arrête le vinyle
+        // Quand l'audio est fini, tout remettre à zéro
         audio.addEventListener('ended', () => {
             iconPlay.style.display = 'block';
             iconPause.style.display = 'none';

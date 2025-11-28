@@ -947,13 +947,11 @@ body {
     position: relative;
     border-radius: 50%;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    /* Ajout d'un petit liseré pour le réalisme */
-    border: 4px solid #111;
+    /* Enlève la bordure si tu veux que ton PNG fasse tout le travail */
+    border: none;
 }
 
-/* --- NOUVEAU : Animation du vinyle --- */
-
-/* Définition de la rotation */
+/* --- ANIMATION ROTATION --- */
 @keyframes spinRecord {
     from {
         transform: rotate(0deg);
@@ -968,42 +966,34 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* S'assure que l'image remplit le rond */
     border-radius: 50%;
-    /* On applique l'animation mais on la met en pause par défaut */
+    /* Rend l'image parfaitement ronde */
+    display: block;
+
+    /* Animation définie mais en PAUSE par défaut */
     animation: spinRecord 5s linear infinite;
-    /* 5s = vitesse de rotation */
     animation-play-state: paused;
 }
 
-/* Cette classe sera ajoutée en JS quand ça joue */
+/* Classe ajoutée par JS pour lancer la rotation */
 .vinyl-img.playing {
     animation-play-state: running;
 }
 
-/* ------------------------------------- */
-
-
-.fallback-vinyl {
-    background: repeating-radial-gradient(#111 0,
-            #111 10px,
-            #222 11px,
-            #222 12px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
+/* Petit rond central (trou du vinyle) */
 .vinyl-center {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
+    width: 15px;
+    /* Petit trou */
+    height: 15px;
     background-color: #F9F5EF;
+    /* Couleur du fond de la page */
     border-radius: 50%;
-    z-index: 2;
-    border: 2px solid rgba(0, 0, 0, 0.1);
+    z-index: 10;
 }
 
 /* Liste des pistes */
@@ -1014,7 +1004,6 @@ body {
     flex-direction: column;
 }
 
-/* Si une seule piste, on la centre verticalement un peu plus */
 .audio-list-container.single-track-mode {
     margin-top: 20px;
 }
@@ -1106,6 +1095,7 @@ body {
     animation: wave 1.2s infinite ease-in-out;
 }
 
+/* Variation aléatoire des barres */
 .waveform-bar:nth-child(odd) {
     height: 15px;
     animation-duration: 1.5s;
@@ -1130,6 +1120,7 @@ body {
     height: 28px;
 }
 
+/* Animation en pause par défaut */
 .waveform-bar {
     animation-play-state: paused;
 }
