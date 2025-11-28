@@ -143,3 +143,54 @@ setupModal('modal-justaucorps', 'btn-justaucorps', '.modal-close-justaucorps');
 setupModal('modal-stress', 'btn-stress', '.modal-close-stress');
 setupModal('modal-confiance', 'btn-confiance', '.modal-close-confiance');
 setupModal('modal-histoire', 'btn-histoire', '.modal-close-histoire');
+
+/* --- GESTION LECTEUR AUDIO UNIQUE ET VINYLE --- */
+document.addEventListener('DOMContentLoaded', () => {
+    // On sélectionne les éléments uniques par leurs IDs
+    const playButton = document.getElementById('main-play-btn');
+    const audio = document.getElementById('main-audio');
+    const vinylImage = document.getElementById('current-vinyl');
+
+    // Vérification de sécurité si les éléments existent sur la page
+    if (playButton && audio && vinylImage) {
+
+        const playerContainer = playButton.closest('.custom-audio-player');
+        const iconPlay = playButton.querySelector('.icon-play');
+        const iconPause = playButton.querySelector('.icon-pause');
+
+        playButton.addEventListener('click', () => {
+            if (audio.paused) {
+                // --- Lancer la lecture ---
+                audio.play();
+
+                // Changer les icônes
+                iconPlay.style.display = 'none';
+                iconPause.style.display = 'block';
+
+                // Activer les animations (Waveform ET Vinyle)
+                playerContainer.classList.add('playing');
+                vinylImage.classList.add('playing'); // C'est cette ligne qui fait tourner le disque
+
+            } else {
+                // --- Mettre en pause ---
+                audio.pause();
+
+                // Changer les icônes
+                iconPlay.style.display = 'block';
+                iconPause.style.display = 'none';
+
+                // Arrêter les animations
+                playerContainer.classList.remove('playing');
+                vinylImage.classList.remove('playing'); // Le disque s'arrête
+            }
+        });
+
+        // (Optionnel) Si l'audio se termine tout seul, on remet le bouton play et on arrête le vinyle
+        audio.addEventListener('ended', () => {
+            iconPlay.style.display = 'block';
+            iconPause.style.display = 'none';
+            playerContainer.classList.remove('playing');
+            vinylImage.classList.remove('playing');
+        });
+    }
+});
