@@ -136,7 +136,8 @@ body {
     color: white;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 
-    transform: translate(-50%, -50%) scale(0.8);
+    /* Optimisation GPU */
+    transform: translate3d(-50%, -50%, 0) scale(0.8);
     opacity: 0;
     z-index: 0;
     pointer-events: none;
@@ -146,7 +147,7 @@ body {
 
 /* Carte Active (Au centre, grande) */
 .article-slider-item.active {
-    transform: translate(-50%, -50%) scale(1.1);
+    transform: translate3d(-50%, -50%, 0) scale(1.1);
     opacity: 1;
     z-index: 10;
     pointer-events: auto;
@@ -155,7 +156,7 @@ body {
 
 /* Carte Précédente (À gauche) */
 .article-slider-item.prev {
-    transform: translate(-50%, -50%) translateX(-400px) scale(0.9);
+    transform: translate3d(-50%, -50%, 0) translateX(-400px) scale(0.9);
     opacity: 0.6;
     z-index: 5;
     pointer-events: auto;
@@ -164,7 +165,7 @@ body {
 
 /* Carte Suivante (À droite) */
 .article-slider-item.next {
-    transform: translate(-50%, -50%) translateX(400px) scale(0.9);
+    transform: translate3d(-50%, -50%, 0) translateX(400px) scale(0.9);
     opacity: 0.6;
     z-index: 5;
     pointer-events: auto;
@@ -279,7 +280,8 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.8);
+    /* Utilisation de translate3d pour forcer l'accélération matérielle GPU */
+    transform: translate3d(-50%, -50%, 0) scale(0.8);
     width: 500px;
     height: 300px;
     cursor: pointer;
@@ -302,7 +304,7 @@ body {
 }
 
 .carousel-item.active {
-    transform: translate(-50%, -50%) scale(1.2);
+    transform: translate3d(-50%, -50%, 0) scale(1.2);
     opacity: 1;
     z-index: 10;
     pointer-events: auto;
@@ -317,11 +319,11 @@ body {
 }
 
 .carousel-item.prev {
-    transform: translate(-50%, -50%) translateX(-300px) scale(0.8);
+    transform: translate3d(-50%, -50%, 0) translateX(-300px) scale(0.8);
 }
 
 .carousel-item.next {
-    transform: translate(-50%, -50%) translateX(300px) scale(0.8);
+    transform: translate3d(-50%, -50%, 0) translateX(300px) scale(0.8);
 }
 
 /* Texte caché par défaut dans la galerie */
@@ -396,6 +398,9 @@ body {
     align-items: center;
     gap: 12px;
     margin-top: 40px;
+    /* Optimisation pour les points */
+    contain: layout;
+    /* Isole le recalcul de mise en page */
 }
 
 /* Style commun pour les points */
@@ -406,7 +411,10 @@ body {
     background-color: #555;
     border-radius: 50%;
     cursor: pointer;
-    transition: all 0.3s ease;
+    /* Transition uniquement sur les propriétés nécessaires pour éviter de tout recalculer */
+    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.3s ease;
+    /* Indication au navigateur pour optimiser le rendu */
+    will-change: width;
 }
 
 /* Galerie (fond sombre) : Point actif gris clair */
@@ -431,7 +439,6 @@ body {
     transform: translateX(-50%);
     z-index: 20;
     margin-top: 0;
-    /* Annule la marge par défaut */
 }
 
 /* --- SECTION TEXTE FIN --- */
