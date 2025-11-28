@@ -142,3 +142,4 @@ setupModal('modal-laura', 'btn-laura', '.modal-close');
 setupModal('modal-justaucorps', 'btn-justaucorps', '.modal-close-justaucorps');
 setupModal('modal-stress', 'btn-stress', '.modal-close-stress');
 setupModal('modal-confiance', 'btn-confiance', '.modal-close-confiance');
+setupModal('modal-histoire', 'btn-histoire', '.modal-close-histoire');
