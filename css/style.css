@@ -10,7 +10,7 @@ body {
     /* Évite le scroll horizontal involontaire */
 }
 
-/* --- NAVBAR (Inchangé) --- */
+/* --- NAVBAR --- */
 .navbar {
     background-color: #FFFFFF;
     height: 80px;
@@ -24,14 +24,10 @@ body {
 
 .nav-logo {
     height: 150px;
-    /* Rétabli à 150px comme à l'origine */
     width: auto;
     margin-top: 0;
-    /* Suppression de la marge qui décalait le logo */
     z-index: 100;
 }
-
-/* Ajustement logo qui dépasse */
 
 .nav-button {
     width: 140px;
@@ -70,11 +66,9 @@ body {
     height: 500px;
     display: block;
     opacity: 0.5;
-    /* Rétabli : Donne l'effet "filtre blanc" en transparence */
     object-fit: cover;
     object-position: center;
     filter: blur(1.5px);
-    /* Rétabli : Le flou léger */
 }
 
 .subtitle-block {
@@ -101,120 +95,148 @@ body {
     text-transform: uppercase;
 }
 
-/* --- SECTION ARTICLES (CARTES) --- */
+/* --- CARROUSEL ARTICLES (NOUVEAU) --- */
 .articles-section {
+    position: relative;
+    width: 100%;
+    height: 500px;
     display: flex;
     justify-content: center;
-    align-items: flex-end;
-    /* Aligne le bas des cartes */
-    gap: 30px;
-    padding: 40px 10%;
+    align-items: center;
     margin-bottom: 60px;
+    overflow: hidden;
 }
 
-.article-card {
+.article-slider-container {
+    position: relative;
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style de base de la carte (adapté au slider) */
+.article-slider-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 350px;
+    height: 380px;
     background-color: #C5B79D;
-    /* Couleur beige de la maquette */
     border-radius: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 30px;
+    box-sizing: border-box;
     text-align: center;
     color: white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+    z-index: 0;
+    pointer-events: none;
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+        opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.small-card {
-    width: 300px;
-    height: 250px;
+/* Carte Active (Au centre, grande) */
+.article-slider-item.active {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 1;
+    z-index: 10;
+    pointer-events: auto;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
-.large-card {
-    width: 350px;
-    height: 320px;
-    /* Carte centrale plus haute */
+/* Carte Précédente (À gauche) */
+.article-slider-item.prev {
+    transform: translate(-50%, -50%) translateX(-400px) scale(0.9);
+    opacity: 0.6;
+    z-index: 5;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+/* Carte Suivante (À droite) */
+.article-slider-item.next {
+    transform: translate(-50%, -50%) translateX(400px) scale(0.9);
+    opacity: 0.6;
+    z-index: 5;
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 .article-title {
-    font-size: 32px;
-    margin: 0;
-    font-weight: 400;
+    font-size: 28px;
+    margin: 0 0 10px 0;
+    font-weight: 600;
     text-transform: uppercase;
+    line-height: 1.1;
 }
 
 .article-chapeau {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.7);
-    margin: 5px 0 20px 0;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 20px 0;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
 }
 
 .btn-savoir {
     background-color: white;
     color: black;
-    padding: 5px 20px;
+    padding: 10px 25px;
     border-radius: 20px;
     text-decoration: none;
     font-weight: 600;
     font-size: 16px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
 }
 
-/* --- TITRE GALERIE --- */
+.btn-savoir:hover {
+    transform: scale(1.05);
+}
 
-/* --- DANS css/style.css (Ajoutez ceci à la section Galerie) --- */
-
-/* Conteneur du texte caché par défaut */
-.hover-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    /* Fond noir semi-transparent */
+/* Flèches de navigation spécifiques aux articles */
+.article-nav-arrow {
+    color: #480404;
+    font-size: 40px;
+    border: 2px solid #480404;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0;
-    /* Invisible au départ */
-    transition: opacity 0.4s ease;
-    border-radius: 20px;
-    /* Même arrondi que les images */
-    padding: 20px;
-    box-sizing: border-box;
+    cursor: pointer;
+    z-index: 20;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.5);
+    transition: background 0.3s;
 }
 
-/* Style du texte */
-.hover-overlay p {
+.article-nav-arrow:hover {
+    background-color: #480404;
     color: white;
-    font-family: 'Mohave', sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    text-align: center;
-    text-transform: uppercase;
-    line-height: 1.4;
-    margin: 0;
 }
 
-/* Transition douce pour le flou de l'image */
-.carousel-item img {
-    transition: filter 0.4s ease, transform 0.6s ease;
+.article-nav-arrow.left {
+    left: 5%;
 }
 
-/* --- EFFET AU SURVOL (HOVER) --- */
-
-/* Quand on survole l'item : on floute l'image */
-.carousel-item:hover img {
-    filter: blur(5px);
+.article-nav-arrow.right {
+    right: 5%;
 }
 
-/* Quand on survole l'item : on affiche le texte */
-.carousel-item:hover .hover-overlay {
-    opacity: 1;
-}
 
+/* --- TITRE GALERIE --- */
 .gallery-section-title {
     font-size: 48px;
     text-transform: uppercase;
@@ -227,7 +249,6 @@ body {
 /* --- SECTION GALERIE (FOND NOIR) --- */
 .gallery-wrapper {
     background-color: #1E1E1E;
-    /* Fond sombre */
     padding: 60px 0;
     position: relative;
     width: 100%;
@@ -257,13 +278,11 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    /* Tout le monde reste au centre par défaut pour la propriété left */
     transform: translate(-50%, -50%) scale(0.8);
     width: 500px;
     height: 300px;
     cursor: pointer;
     will-change: transform, opacity;
-    /* On supprime 'left' de la transition */
     transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
         opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
         filter 0.4s ease;
@@ -279,7 +298,6 @@ body {
     height: 100%;
     object-fit: cover;
     border: none;
-    /* Enlève la bordure blanche précédente */
 }
 
 .carousel-item.active {
@@ -287,11 +305,9 @@ body {
     opacity: 1;
     z-index: 10;
     pointer-events: auto;
-    /* On garde l'ombre uniquement ici, sans transition lourde */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-/* On réactive l'opacité SEULEMENT pour les items utiles */
 .carousel-item.prev,
 .carousel-item.next {
     opacity: 0.5;
@@ -300,24 +316,55 @@ body {
 }
 
 .carousel-item.prev {
-    /* Au lieu de left: 20%, on déplace vers la gauche via TranslateX */
-    /* -50% (centrage) - 60% (décalage vers la gauche relative à la largeur du conteneur parent approximative) */
-    /* Le plus simple ici est de simuler le décalage. Si le conteneur fait 100%, 30% d'écart = translate -30vw environ */
-
     transform: translate(-50%, -50%) translateX(-300px) scale(0.8);
-    /* NOTE : Ajustez -300px selon l'espacement voulu. 
-       Si vous voulez garder du % responsive, utilisez calc ou vw */
-
-    /* left: 20%;  <-- SUPPRIMER CECI */
 }
 
-/* Item Suivant (à droite) */
 .carousel-item.next {
     transform: translate(-50%, -50%) translateX(300px) scale(0.8);
-    /* left: 80%;  <-- SUPPRIMER CECI */
 }
 
-/* Flèches décoratives */
+/* Texte caché par défaut dans la galerie */
+.hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.hover-overlay p {
+    color: white;
+    font-family: 'Mohave', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.carousel-item img {
+    transition: filter 0.4s ease, transform 0.6s ease;
+}
+
+.carousel-item:hover img {
+    filter: blur(5px);
+}
+
+.carousel-item:hover .hover-overlay {
+    opacity: 1;
+}
+
+/* Flèches galerie */
 .nav-arrow {
     color: white;
     font-size: 30px;
@@ -345,33 +392,45 @@ body {
 .dots-container {
     display: flex;
     justify-content: center;
-    /* Centre les points */
     align-items: center;
     gap: 12px;
-    /* Espace entre les points */
     margin-top: 40px;
-    /* Un peu plus d'espace sous le carrousel */
 }
 
-.dot {
+/* Style commun pour les points */
+.dot,
+.article-dot {
     width: 12px;
     height: 12px;
     background-color: #555;
-    /* Gris foncé pour les inactifs */
     border-radius: 50%;
-    /* Cercle parfait */
     cursor: pointer;
     transition: all 0.3s ease;
-    /* Animation fluide pour l'étirement */
 }
 
+/* Galerie (fond sombre) : Point actif gris clair */
 .dot.active {
     width: 60px;
-    /* Largeur de la barre active */
     background-color: #888;
-    /* Gris plus clair pour l'actif */
     border-radius: 10px;
-    /* Bords arrondis pour faire une "gélule" */
+}
+
+/* Articles (fond clair) : Point actif rouge (couleur charte) */
+.article-dot.active {
+    width: 60px;
+    background-color: #480404;
+    border-radius: 10px;
+}
+
+/* Positionnement spécifique pour les points des articles */
+.articles-section .dots-container {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    margin-top: 0;
+    /* Annule la marge par défaut */
 }
 
 /* --- SECTION TEXTE FIN --- */
@@ -429,13 +488,10 @@ body {
     width: 100%;
     display: flex;
     flex-direction: column;
-    /* Empile l'image et le texte verticalement */
     align-items: center;
-    /* Centre le tout horizontalement */
     padding: 60px 0 100px 0;
     background-color: #F9F5EF;
     gap: 40px;
-    /* Espace entre l'image et le texte */
 }
 
 .audio-hero-container {
@@ -483,7 +539,6 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Correction Texte Audio (Placement) */
 .hero-intro-text {
     width: 80%;
     max-width: 900px;
@@ -493,7 +548,6 @@ body {
     font-size: 24px;
     line-height: 1.4;
     color: #333;
-    /* On s'assure qu'il n'y a pas de marge étrange */
     margin-top: 0;
 }
 
@@ -518,7 +572,6 @@ body {
     max-width: 1000px;
     display: flex;
     align-items: center;
-    /* Centre le texte verticalement face à l'image */
     justify-content: space-between;
     gap: 50px;
 }
@@ -538,60 +591,38 @@ body {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Portrait */
-.portrait-wrapper {
-    justify-content: flex-start;
-}
-
-.img-portrait {
-    width: auto !important;
-    max-width: 250px !important;
-    height: 350px !important;
-    object-fit: cover;
-}
-
 /* Texte & Boutons */
 .article-text-side {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    /* Pousse le contenu vers le bas */
 }
 
 .article-preview-title {
     font-family: 'Mohave', sans-serif;
     font-weight: 600;
-    /* SemiBold */
     font-size: 64px;
-    /* Paramètre demandé */
     line-height: 100%;
     letter-spacing: 0%;
     margin: 0 0 30px 0;
     color: black;
     text-transform: none;
-    /* On enlève la majuscule forcée */
 }
 
-/* Correction de la taille du texte (Chapeau) */
 .article-preview-chapeau {
     font-family: 'Mohave', sans-serif;
     font-weight: 400;
     font-size: 24px;
-    /* Augmenté pour correspondre mieux à la maquette */
     line-height: 1.4;
     color: black;
     text-transform: none;
     margin-bottom: 40px;
 }
 
-/* --- Layout Alterné (CORRIGÉ) --- */
-
-/* Cas 1 : Image à DROITE (Texte à GAUCHE) */
-/* Structure HTML : <Texte> <Image> */
+/* Layout Alterné */
 .image-right {
     flex-direction: row;
-    /* Ordre naturel */
 }
 
 .image-right .article-img-side {
@@ -600,18 +631,12 @@ body {
 
 .image-right .article-text-side {
     align-items: flex-start;
-    /* Aligne le bloc texte à gauche */
     text-align: left;
-    /* Texte aligné à gauche */
     padding-right: 60px;
-    /* Espace entre le texte et l'image */
 }
 
-/* Cas 2 : Image à GAUCHE (Texte à DROITE) */
-/* Structure HTML : <Image> <Texte> */
 .image-left {
     flex-direction: row;
-    /* Ordre naturel car HTML est inversé */
 }
 
 .image-left .article-img-side {
@@ -619,31 +644,14 @@ body {
 }
 
 .image-left .article-text-side {
-    /* C'EST ICI QUE C'ETAIT FAUX AVANT */
     align-items: flex-start;
-    /* On garde le bloc texte aligné au début (gauche) */
     text-align: left;
-    /* On garde le texte aligné à gauche (lecture normale) */
     padding-left: 60px;
-    /* Espace entre l'image et le texte */
-}
-
-/* Cas 3 : Sans image (Texte centré) */
-.no-image {
-    justify-content: center;
-}
-
-.no-image .article-text-side {
-    align-items: center;
-    text-align: center;
-    padding: 0;
-    max-width: 800px;
 }
 
 /* Bouton LIRE + */
 .btn-lire {
     background-color: #C5B79D;
-    /* Beige sur fond beige (ou blanc selon maquette) */
     color: black;
     padding: 8px 50px;
     border-radius: 20px;
@@ -660,7 +668,6 @@ body {
     display: inline-block;
 }
 
-/* Variante pour fond blanc si on veut un bouton beige qui ressort */
 .btn-lire.btn-beige-bg {
     background-color: #C5B79D;
 }
@@ -669,7 +676,7 @@ body {
     transform: scale(1.05);
 }
 
-/* Responsive Mobile (Inchangé mais vital) */
+/* Responsive Mobile */
 @media (max-width: 768px) {
 
     .article-content,
@@ -682,37 +689,32 @@ body {
 
     .article-text-side {
         padding: 0 !important;
-        /* Enlève les espaces latéraux sur mobile */
         text-align: left !important;
     }
 
     .article-preview-title {
         font-size: 40px;
     }
+
+    .article-slider-item {
+        width: 300px;
+    }
 }
 
 /* --- STYLE DU POP-UP (MODAL) --- */
-
-/* L'arrière-plan sombre qui couvre tout l'écran */
 .modal-overlay {
     display: none;
-    /* Caché par défaut */
     position: fixed;
     z-index: 1000;
-    /* Au-dessus de tout */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
-    /* Fond noir semi-transparent */
     backdrop-filter: blur(5px);
-    /* Petit effet de flou moderne */
     align-items: center;
     justify-content: center;
 }
-
-/* --- Dans webdocumentaire-main/css/style.css --- */
 
 .modal-container {
     background-color: #F9F5EF;
@@ -729,7 +731,6 @@ body {
     animation: slideUp 0.4s ease-out;
 }
 
-/* Animation d'apparition */
 @keyframes slideUp {
     from {
         transform: translateY(50px);
@@ -742,7 +743,6 @@ body {
     }
 }
 
-/* Bouton fermer (la croix) */
 .modal-close {
     position: absolute;
     top: 20px;
@@ -759,7 +759,6 @@ body {
     color: #b0a186;
 }
 
-/* En-tête du modal */
 .modal-header {
     text-align: center;
     margin-bottom: 30px;
@@ -769,32 +768,22 @@ body {
 
 .modal-header h2 {
     font-family: 'Mohave', sans-serif;
-    font-size: 48px;
+    font-size: 42px;
+    line-height: 1.2;
     margin: 0;
     text-transform: uppercase;
+    text-align: center;
 }
 
-.modal-subtitle {
-    font-family: 'Mohave', sans-serif;
-    font-size: 24px;
-    color: #666;
-    margin: 10px 0 0 0;
-}
-
-/* Corps du texte (défilant) */
 .modal-body {
     overflow-y: auto;
-    /* Permet de scroller si le texte est long */
     padding-right: 15px;
-    /* Espace pour la barre de scroll */
     text-align: justify;
     font-family: 'JetBrains Mono', monospace;
-    /* Police secondaire du site */
     font-size: 16px;
     line-height: 1.6;
 }
 
-/* Style de la barre de scroll personnalisée */
 .modal-body::-webkit-scrollbar {
     width: 8px;
 }
@@ -818,90 +807,50 @@ body {
     text-transform: uppercase;
 }
 
-/* --- AJOUTS CSS POUR LE POP-UP CORRIGÉ --- */
-
-/* --- Dans webdocumentaire-main/css/style.css --- */
-
-/* Ajoutez ou modifiez ce bloc pour gérer les images dans la modale */
-/* --- Dans webdocumentaire-main/css/style.css --- */
-
 .modal-article-img {
-    /* On enlève width: 100% pour ne pas forcer l'étirement */
     width: auto;
     max-width: 100%;
-    /* Elle ne dépassera jamais la largeur du texte */
-
-    /* On définit une hauteur maximale pour éviter l'effet "géant" des images carrées */
     max-height: 300px;
     height: auto;
-    /* Garde les proportions d'origine (pas de déformation) */
-
     display: block;
-    /* Nécessaire pour le centrage */
     margin: 20px auto;
-    /* Centre l'image horizontalement */
-
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Optionnel : Si sur mobile (petit écran) vous trouvez que 400px est trop haut, vous pouvez réduire la hauteur */
-@media (max-width: 768px) {
-    .modal-article-img {
-        height: 250px;
-        /* Hauteur plus petite sur mobile */
-    }
-}
-
-/* Style spécifique pour le chapeau dans le pop-up */
 .modal-intro {
     font-size: 18px;
     font-weight: 600;
-    /* Un peu plus gras */
     font-style: italic;
-    /* En italique pour le différencier */
     color: #444;
     margin-bottom: 30px;
-    /* Espace avant le début des paragraphes */
     border-left: 4px solid #C5B79D;
-    /* Petite barre déco sur le côté */
     padding-left: 15px;
 }
 
-/* Ajustement du titre pour qu'il soit bien lisible en gros */
-.modal-header h2 {
+.author-signature {
+    text-align: right;
     font-family: 'Mohave', sans-serif;
-    font-size: 42px;
-    /* Un peu plus petit que 48px pour que ça rentre bien sur 2 lignes */
-    line-height: 1.2;
-    margin: 0;
-    text-transform: uppercase;
-    text-align: center;
-}
-
-/* On s'assure que le header a assez d'espace */
-.modal-header {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid #C5B79D;
+    font-size: 18px;
+    font-weight: 600;
+    font-style: italic;
+    color: #555;
+    margin-top: 30px;
+    margin-right: 20px;
 }
 
 /* --- PAGE WEBDOC --- */
-
 .webdoc-main {
     width: 100%;
     max-width: 900px;
-    /* Largeur contenue pour la lisibilité comme sur la maquette */
     margin: 0 auto;
     padding: 60px 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 60px;
-    /* Espace entre les grandes sections */
 }
 
-/* Styles des textes */
 .webdoc-section {
     text-align: left;
 }
@@ -917,7 +866,6 @@ body {
 
 .title-underline {
     width: 150px;
-    /* Longueur du trait */
     height: 2px;
     background-color: #000;
     margin-bottom: 30px;
@@ -925,30 +873,24 @@ body {
 
 .webdoc-text {
     font-family: 'Mohave', sans-serif;
-    /* Ou 'JetBrains Mono' si vous préférez le style monospace */
     font-size: 20px;
     line-height: 1.5;
     color: #000;
     margin-bottom: 20px;
 }
 
-/* Section Vidéo Responsive */
 .video-section {
     width: 100%;
-    /* Fond décoratif style "cinéma" ou simple marge, ici simple pour rester propre */
     margin: 20px 0;
 }
 
 .video-wrapper {
     position: relative;
     padding-bottom: 56.25%;
-    /* Ratio 16:9 pour la vidéo */
     height: 0;
     overflow: hidden;
     border-radius: 10px;
-    /* Coins légèrement arrondis */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    /* Ombre portée pour donner du relief */
     background-color: #000;
 }
 
@@ -960,7 +902,6 @@ body {
     height: 100%;
 }
 
-/* Section Détails (Bas de page) */
 .details-section {
     display: flex;
     flex-direction: column;
@@ -969,16 +910,4 @@ body {
 
 .text-block {
     margin-bottom: 20px;
-}
-
-/* --- Signature Auteur --- */
-.author-signature {
-    text-align: right;
-    font-family: 'Mohave', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    font-style: italic;
-    color: #555;
-    margin-top: 30px;
-    margin-right: 20px;
 }
