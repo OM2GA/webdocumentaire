@@ -1,181 +1,144 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const items = document.querySelectorAll('.carousel-item');
-    const dots = document.querySelectorAll('.dot');
-    const prevBtn = document.querySelector('.nav-arrow.left');
-    const nextBtn = document.querySelector('.nav-arrow.right');
 
-    if (items.length === 0) return;
+    /**
+     * Fonction générique pour gérer un carrousel "Cover Flow"
+     * @param {string} containerSelector - Sélecteur du conteneur parent
+     * @param {string} itemSelector - Sélecteur des items du carrousel
+     * @param {string} prevBtnSelector - Sélecteur du bouton Précédent
+     * @param {string} nextBtnSelector - Sélecteur du bouton Suivant
+     * @param {string} dotsSelector - Sélecteur des points de navigation (optionnel)
+     */
+    function setupCarousel(containerSelector, itemSelector, prevBtnSelector, nextBtnSelector, dotsSelector = null) {
+        const items = document.querySelectorAll(itemSelector);
+        const prevBtn = document.querySelector(prevBtnSelector);
+        const nextBtn = document.querySelector(nextBtnSelector);
+        const dots = dotsSelector ? document.querySelectorAll(dotsSelector) : [];
 
-    let activeIndex = 1; // On commence par la 2ème image (index 1) pour être centré si 3 images
+        if (items.length === 0) return;
 
-    // Fonction principale de mise à jour
-    function updateCarousel() {
-        // 1. Calcul des index précédents/suivants pour les classes CSS
-        const prevIndex = (activeIndex - 1 + items.length) % items.length;
-        const nextIndex = (activeIndex + 1) % items.length;
+        let activeIndex = 0;
 
-        // 2. Mise à jour des images (positions)
-        items.forEach((item, index) => {
-            item.classList.remove('prev', 'active', 'next');
+        function updateCarousel() {
+            const total = items.length;
 
-            if (index === activeIndex) {
-                item.classList.add('active');
-            } else if (index === prevIndex) {
-                item.classList.add('prev');
-            } else if (index === nextIndex) {
-                item.classList.add('next');
+            // Calcul des index relatifs
+            const prevIndex = (activeIndex - 1 + total) % total;
+            const nextIndex = (activeIndex + 1) % total;
+
+            items.forEach((item, index) => {
+                // Nettoyage des classes
+                item.classList.remove('active', 'prev', 'next');
+
+                // Attribution des nouvelles classes
+                if (index === activeIndex) {
+                    item.classList.add('active');
+                } else if (index === prevIndex) {
+                    item.classList.add('prev');
+                } else if (index === nextIndex) {
+                    item.classList.add('next');
+                }
+                // Les autres restent sans classe (cachés/derrière via CSS)
+            });
+
+            // Mise à jour des points si existants
+            if (dots.length > 0) {
+                dots.forEach((dot, index) => {
+                    if (index === activeIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
             }
-            // Les autres images restent cachées ou empilées par défaut via le CSS
-        });
+        }
 
-        // 3. Mise à jour des points (dots)
-        dots.forEach((dot, index) => {
-            if (index === activeIndex) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
-    }
+        // --- Événements ---
 
-    // --- Écouteurs d'événements (Interactions) ---
-
-    // 1. Clic sur les flèches
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            activeIndex = (activeIndex - 1 + items.length) % items.length;
-            updateCarousel();
-        });
-    }
-
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            activeIndex = (activeIndex + 1) % items.length;
-            updateCarousel();
-        });
-    }
-
-    // 2. Clic sur les points
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            activeIndex = index;
-            updateCarousel();
-        });
-    });
-
-    // 3. Clic direct sur les images (comme avant)
-    items.forEach((item, index) => {
-        item.addEventListener('click', () => {
-            if (index !== activeIndex) {
-                activeIndex = index;
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                activeIndex = (activeIndex - 1 + items.length) % items.length;
                 updateCarousel();
-            }
-        });
-    });
+            });
+        }
 
-    // Initialisation
-    updateCarousel();
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                activeIndex = (activeIndex + 1) % items.length;
+                updateCarousel();
+            });
+        }
+
+        // Clic direct sur un item pour le rendre actif
+        items.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                if (index !== activeIndex) {
+                    activeIndex = index;
+                    updateCarousel();
+                }
+            });
+        });
+
+        // Clic sur les points
+        if (dots.length > 0) {
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    activeIndex = index;
+                    updateCarousel();
+                });
+            });
+        }
+
+        // Initialisation
+        updateCarousel();
+    }
+
+    // --- 1. Initialisation du Carrousel GALERIE (Bas de page) ---
+    setupCarousel(
+        '.carousel-slider',       // Conteneur
+        '.carousel-item',         // Items
+        '.nav-arrow.left',        // Btn Prev
+        '.nav-arrow.right',       // Btn Next
+        '.dot'                    // Dots (points)
+    );
+
+    // --- 2. Initialisation du Carrousel ARTICLES (Haut de page) ---
+    setupCarousel(
+        '.article-slider-container', // Conteneur
+        '.article-slider-item',      // Items
+        '.article-nav-arrow.left',   // Btn Prev
+        '.article-nav-arrow.right',  // Btn Next
+        '.article-dot'               // Dots (points) pour articles
+    );
 });
 
-/* --- GESTION DU POP-UP ARTICLE --- */
 
-// Sélection des éléments
-const modal = document.getElementById('modal-laura');
-const btnOpen = document.getElementById('btn-laura');
-const btnClose = document.querySelector('.modal-close');
+/* --- GESTION DES MODALES --- */
 
-// Vérification que les éléments existent (pour éviter les erreurs sur les autres pages)
-if (modal && btnOpen && btnClose) {
+function setupModal(modalId, btnOpenId, btnCloseClass) {
+    const modal = document.getElementById(modalId);
+    const btnOpen = document.getElementById(btnOpenId);
+    const btnClose = document.querySelector(btnCloseClass);
 
-    // Ouvrir le modal au clic sur "LIRE +"
-    btnOpen.addEventListener('click', (e) => {
-        e.preventDefault(); // Empêche le comportement par défaut du lien/bouton
-        modal.style.display = "flex"; // Affiche le modal (flex pour centrer)
-    });
+    if (modal && btnOpen && btnClose) {
+        btnOpen.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.style.display = "flex";
+        });
 
-    // Fermer le modal au clic sur la croix
-    btnClose.addEventListener('click', () => {
-        modal.style.display = "none";
-    });
-
-    // Fermer le modal si on clique en dehors du contenu (sur le fond sombre)
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
+        btnClose.addEventListener('click', () => {
             modal.style.display = "none";
-        }
-    });
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+    }
 }
 
-/* --- GESTION DU POP-UP ARTICLE 1 (JUSTAUCORPS) --- */
-
-const modalJustaucorps = document.getElementById('modal-justaucorps');
-const btnOpenJustaucorps = document.getElementById('btn-justaucorps');
-// On sélectionne le bouton fermer spécifique à cette modale
-const btnCloseJustaucorps = document.querySelector('.modal-close-justaucorps');
-
-if (modalJustaucorps && btnOpenJustaucorps && btnCloseJustaucorps) {
-
-    // Ouvrir
-    btnOpenJustaucorps.addEventListener('click', (e) => {
-        e.preventDefault();
-        modalJustaucorps.style.display = "flex";
-    });
-
-    // Fermer (Croix)
-    btnCloseJustaucorps.addEventListener('click', () => {
-        modalJustaucorps.style.display = "none";
-    });
-
-    // Fermer (Clic extérieur)
-    window.addEventListener('click', (e) => {
-        if (e.target === modalJustaucorps) {
-            modalJustaucorps.style.display = "none";
-        }
-    });
-}
-
-/* --- GESTION DU POP-UP ARTICLE 3 (STRESS) --- */
-
-const modalStress = document.getElementById('modal-stress');
-const btnOpenStress = document.getElementById('btn-stress');
-const btnCloseStress = document.querySelector('.modal-close-stress');
-
-if (modalStress && btnOpenStress && btnCloseStress) {
-    btnOpenStress.addEventListener('click', (e) => {
-        e.preventDefault();
-        modalStress.style.display = "flex";
-    });
-
-    btnCloseStress.addEventListener('click', () => {
-        modalStress.style.display = "none";
-    });
-
-    window.addEventListener('click', (e) => {
-        if (e.target === modalStress) {
-            modalStress.style.display = "none";
-        }
-    });
-}
-
-/* --- GESTION DU POP-UP ARTICLE 4 (CONFIANCE) --- */
-
-const modalConfiance = document.getElementById('modal-confiance');
-const btnOpenConfiance = document.getElementById('btn-confiance');
-const btnCloseConfiance = document.querySelector('.modal-close-confiance');
-
-if (modalConfiance && btnOpenConfiance && btnCloseConfiance) {
-    btnOpenConfiance.addEventListener('click', (e) => {
-        e.preventDefault();
-        modalConfiance.style.display = "flex";
-    });
-
-    btnCloseConfiance.addEventListener('click', () => {
-        modalConfiance.style.display = "none";
-    });
-
-    window.addEventListener('click', (e) => {
-        if (e.target === modalConfiance) {
-            modalConfiance.style.display = "none";
-        }
-    });
-}
+// Initialisation des modales (si présentes sur la page courante)
+setupModal('modal-laura', 'btn-laura', '.modal-close');
+setupModal('modal-justaucorps', 'btn-justaucorps', '.modal-close-justaucorps');
+setupModal('modal-stress', 'btn-stress', '.modal-close-stress');
+setupModal('modal-confiance', 'btn-confiance', '.modal-close-confiance');
